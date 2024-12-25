@@ -1,0 +1,129 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/todos":
+    get:
+      summary: List all todos
+      tags:
+      - Todos
+      responses:
+        '200':
+          description: todos found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+                required:
+                - id
+                - title
+                - created_at
+                - updated_at
+    post:
+      summary: Create todo
+      tags:
+      - Todos
+      parameters: []
+      responses:
+        '201':
+          description: todo created
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+              required:
+              - title
+  "/api/v1/todos/{id}":
+    get:
+      summary: Show todo
+      tags:
+      - Todos
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: todo found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+                required:
+                - id
+                - title
+                - created_at
+                - updated_at
+        '404':
+          description: todo not found
+    patch:
+      summary: Update todo
+      tags:
+      - Todos
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: todo updated
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+              required:
+              - title
+    delete:
+      summary: Delete todo
+      tags:
+      - Todos
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: todo deleted
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com
